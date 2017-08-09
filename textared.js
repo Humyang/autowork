@@ -1,51 +1,22 @@
-var jiandati =  [`
 
-从文化的划分层次看，生活方式分为三个层面：生活方式的表层是指构成生活方式之一的生活资料及其外部特征，如言行举止、服饰、发型等；生活方式的中层是指与文化制度相对应的人们具体的生活方式、生活样式和生活中的行为规范等；生活方式的深层是指与文化的意识层面相对的，人们的精神风貌、生活态度、价值观等。
-`,`
+// var comble2 = jiandati
+// $("iframe").each(function(index,item){
+// $(item).contents().find("#eWebEditor").contents().find("body p").text(comble2[index])
+// })
+function process(str){
+	str = str.replace(/解题方案：\n(.*)\n评分标准：[\n]?.*/g,'`,`')
+	str = str.replace(/[0-9]. \n参考答案：/g,'')
+	str = "[`"+str+"`]"
+	return str
+}
+setTimeout(function() {
+    chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 
-组织中的管理沟通活动要求管理者掌握不同的演讲方式。常见的演讲方式包括以下五种：
-
-（1）照搞式演讲；
-
-（2）背诵式演讲；
-
-（3）提示卡式演讲；
-
-（4）即兴演讲；
-
-（5）腹稿式演讲。
-
-
-`,`
-
-进行阅读、鉴赏和研究时,主要从三方面入手研究评价标准:第一是文本论,即对文学艺术作品本身进行鉴赏,把文本本身作为艺术来研究；第二是发展论,从文学艺术的起源、发展的角度来研究;第三是创作论,从文艺思潮与创作方法来研究。
-`,`
-
-控制论沟通过程模式评价。
-
-（1）优势：控制论沟通过程模式引入反馈机制本质深入研究，揭示信息传播中信息的双向回流和受控状态，利于调节信息传播路径和方法。
-
-（2）劣势：现实沟通活动的反馈，并不容易形成循环，尤其大众传播，信息反馈是不对等的，不可能回到原有出发点；控制论沟通过程模式解释的沟通过程是独立的本体。事实上沟通过程并不是一个独立的本体流动的系统过程，它要受社会环境影响甚至受社会控制、社会压力的影响。
-
-
-`,`
-
-
-
-
-社会基础和物质基础为传播的研究创造了条件，20世纪初传播学在美国产生。
-
-（1）社会基础
-
-国际经济贸易对管理和商务的传播需求提高；战争对信息传播需求提高；政治对信息传播需求的提高。
-
-（2）物质基础
-
-新型传播媒介的产生促进商务传播学产生；现代科学研究新成果为传播学的产生创造了学术条件。
-
-
-`,``]
-var comble2 = jiandati
-$("iframe").each(function(index,item){
-$(item).contents().find("#eWebEditor").contents().find("body p").text(comble2[index])
+    if(msg.action === "textarea"){
+        var comble = eval(process(msg.str))
+        $("iframe").each(function(index,item){
+			$(item).contents().find("#eWebEditor").contents().find("body p").text(comble[index])
+		})
+    }
 })
+}, 1000);

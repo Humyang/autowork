@@ -49,12 +49,26 @@ var combleSplit = getDaan(comble)
 // var duoxuan = ""
 // var panduanti = "1. × 2. √ 3. × 4. √ 5. √ 6. √ 7. × 8. × 9. × 10. √ "
 // var comble = danxuan_str.concat(duoxuan).concat(panduanti)
+// alert(123)
 
-chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
+// chrome.runtime.onConnect.addListener(function(port) {
+//   var tab = port.sender.tab;
+
+//   // This will get called by the content script we execute in
+//   // the tab as a result of the user pressing the browser action.
+//   port.onMessage.addListener(function(info) {
+//     alert(12333)
+//     // clock_.start(info.t)
+//   });
+// });
+setTimeout(function() {
+    chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if(msg.action === "checked"){
-        checked_exec(msg.str)
-    }
-})
+            checked_exec(msg.str)
+        }
+    })
+}, 1000);
+
 
 
 
