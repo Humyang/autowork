@@ -30,3 +30,20 @@ for (var i = result.length - 1; i >= 0; i--) {
 		$("#"+result[i].id+" input").eq(result[i].answer[j]).attr('checked',true)
 	}
 }
+
+
+// 填空题
+var tiankong = JSON.parse(localStorage.getItem(tiankong)) || []
+$("iframe").each(function(index,item){
+	var id = $(item).parents(".word_con02").attr("id")
+	var text = $(item).contents().find("#eWebEditor").contents().find("body p").text()
+	console.log(id,text)
+	tiankong.push({id:id,text:text})
+})
+localStorage.setItem("tiankong",JSON.stringify(tiankong))
+
+// 解析
+var tiankong = JSON.parse(localStorage.getItem(tiankong)) || []
+for (var i = tiankong.length - 1; i >= 0; i--) {
+	$("#"+tiankong[i].id+" iframe").contents().find("#eWebEditor").contents().find("body p").text(tiankong[i].text)
+}
