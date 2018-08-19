@@ -1,5 +1,5 @@
 window.onload=function(){
-	alert(process)
+	// alert(123)
 	var run1 = document.getElementById("run1")	
 	run1.onclick = function(event){
 		var t1 = document.getElementById("t1")
@@ -12,7 +12,6 @@ window.onload=function(){
 		sendMsg({action: "textarea",str:t2.value})
 		event.preventDefault()
 	}
-	
 }
 function sendMsg(obj){
 	chrome.tabs.query({active: true, currentWindow: true}, function(tabs){

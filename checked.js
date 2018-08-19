@@ -64,6 +64,7 @@ var combleSplit = getDaan(comble)
 setTimeout(function() {
     chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
     if(msg.action === "checked"){
+            alert(msg.str)
             checked_exec(msg.str)
         }
     })

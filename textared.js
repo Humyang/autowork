@@ -1,8 +1,4 @@
 
-// var comble2 = jiandati
-// $("iframe").each(function(index,item){
-// $(item).contents().find("#eWebEditor").contents().find("body p").text(comble2[index])
-// })
 function process(str){
 	str = str.replace(/解题方案：\n(.*)\n评分标准：[\n]?.*/g,'`,`')
 	str = str.replace(/[0-9]. \n参考答案：/g,'')
