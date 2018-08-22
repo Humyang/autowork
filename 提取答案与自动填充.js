@@ -101,18 +101,22 @@ function tianchong() {
 tianchong()
 
 // 主观题
-var daan = []
-var s = $(".tdTitle:contains('正确答案')+td")
-s.each((index, item) => {
-    daan.push($(item).text())
-})
-localStorage.setItem('daan', JSON.stringify(r))
-// 
+function zhuguanti(){
+    var daan = []
+    var s = $(".tdTitle:contains('正确答案')+td")
+    s.each((index, item) => {
+        daan.push($(item).text())
+    })
+    localStorage.setItem('daan', JSON.stringify(r))
+}
 
-var daan = JSON.parse(localStorage.getItem('daan'))
-$("iframe").each(function (index, item) {
-    $(item).contents().find("#eWebEditor").contents().find("body p").html(daan[index])
-})
+function setZhuguanti(){
+    var daan = JSON.parse(localStorage.getItem('daan'))
+    $("iframe").each(function (index, item) {
+        $(item).contents().find("#eWebEditor").contents().find("body p").html(daan[index])
+    })
+}
+
 
 
 

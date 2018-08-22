@@ -68,20 +68,53 @@ setTimeout(function () {
             checked_exec(msg.str)
         }
         if (msg.action === "getdaan1") {
-            // alert(msg.str)
-            // checked_exec(msg.str)
             getDaan()
         }
         if (msg.action === "setdaan1") {
-            // alert(msg.str)
-            // checked_exec(msg.str)
             tianchong()
+        }
+        if (msg.action === "getdaan2") {
+            zhuguanti()
+        }
+        if (msg.action === "setdaan2") {
+            setZhuguanti()
+        }
+        if (msg.action === "submit"){
+            submit()
         }
         
     })
 
 }, 1000);
 
+function zhuguanti(){
+    var daan = []
+    // var s = $(".tdTitle:contains('正确答案')+td")
+    // s.each((index, item) => {
+    //     daan.push($(item).text())
+    // })
+    var s=$("iframe").parents(".word_con02").next()
+    s.each((index,item)=>{
+        console.log(item)
+        daan.push($(item).find(".tdTitle:contains('正确答案')+td").html())
+    })
+    daan.reverse()
+    console.log(daan)
+    localStorage.setItem('daan', JSON.stringify(daan))
+}
+
+function setZhuguanti(){
+    var daan = JSON.parse(localStorage.getItem('daan'))
+    console.log(daan)
+    var s=$("iframe")
+    s.each(function (index, item) {
+        $(item).contents().find("#eWebEditor").contents().find("body p").html(daan[index])
+    })
+}
+
+function submit(){
+    $("#submitBtn").click()
+}
 function charToNumber(text){
     if (text == "A"||text == "E") {
         value = 0

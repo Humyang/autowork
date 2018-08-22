@@ -20,12 +20,19 @@ function sendMsg(obj){
 }
 $(function(){
 	$("#getAns1").click(function(){
-		// getDaan()
 		sendMsg({action: "getdaan1"})
 	})
 	$("#setAns1").click(function(){
-		// getDaan()
 		sendMsg({action: "setdaan1"})
+	})
+	$("#getAns2").click(function(){
+		sendMsg({action: "getdaan2"})
+	})
+	$("#setAns2").click(function(){
+		sendMsg({action: "setdaan2"})
+	})
+	$("#submit").click(function(){
+		sendMsg({action:"submit"})
 	})
 })
 
