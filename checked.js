@@ -79,22 +79,62 @@ setTimeout(function () {
         if (msg.action === "setdaan2") {
             setZhuguanti()
         }
-        if (msg.action === "submit"){
+        if (msg.action === "getdaan3") {
+            getkaoshi()
+        }
+        if (msg.action === "setdaan3") {
+            setkaoshi()
+        }
+        if (msg.action === "submit") {
             submit()
         }
-        
+
     })
 
 }, 1000);
+// The ID of the extension we want to talk to.
+var editorExtensionId = "kchkmkiahpcdhnpkpedfigdohelhiehg";
 
-function zhuguanti(){
+// Make a simple request:
+function sendMsg(){
+    
+chrome.runtime.sendMessage(editorExtensionId, {
+            'openUrlInEditor': 123
+        },
+        function (response) {
+            if (!response.success)
+                handleError(url);
+    });
+}
+
+function getkaoshi() {
+    console.log('sendmsg')
+    var text = $("iframe").contents().find("#eWebEditor").contents().find("body")
+    var r = []
+    text.each((index, item) => {
+        console.log(item.innerText)
+        r.push(item.innerText)
+    })
+    console.log(r)
+    sendMsg()
+}
+
+function setkaoshi() {
+    var daan=''
+    var bodys=$("iframe").contents().find("#eWebEditor").contents().find("body")
+    daan.forEach((item,index)=>{
+        bodys.eq(index).html(item)
+    })
+}
+
+function zhuguanti() {
     var daan = []
     // var s = $(".tdTitle:contains('正确答案')+td")
     // s.each((index, item) => {
     //     daan.push($(item).text())
     // })
-    var s=$("iframe").parents(".word_con02").next()
-    s.each((index,item)=>{
+    var s = $("iframe").parents(".word_con02").next()
+    s.each((index, item) => {
         console.log(item)
         daan.push($(item).find(".tdTitle:contains('正确答案')+td").html())
     })
@@ -103,42 +143,44 @@ function zhuguanti(){
     localStorage.setItem('daan', JSON.stringify(daan))
 }
 
-function setZhuguanti(){
+function setZhuguanti() {
     var daan = JSON.parse(localStorage.getItem('daan'))
     console.log(daan)
-    var s=$("iframe")
+    var s = $("iframe")
     s.each(function (index, item) {
         $(item).contents().find("#eWebEditor").contents().find("body p").html(daan[index])
     })
 }
 
-function submit(){
+function submit() {
     $("#submitBtn").click()
 }
-function charToNumber(text){
-    if (text == "A"||text == "E") {
+
+function charToNumber(text) {
+    if (text == "A" || text == "E") {
         value = 0
         return value
-    } else if (text == "B"||text == "F") {
+    } else if (text == "B" || text == "F") {
         value = 1
-        
+
         return value
-    } else if (text == "C"||text == "G") {
+    } else if (text == "C" || text == "G") {
         value = 2
         return value
-    } else if (text == "D"||text == "H") {
+    } else if (text == "D" || text == "H") {
         value = 3
         return value
     }
     return -1
 }
-function charToNumberMulti(text){
+
+function charToNumberMulti(text) {
     if (text == "A") {
         value = 0
         return value
     } else if (text == "B") {
         value = 1
-        
+
         return value
     } else if (text == "C") {
         value = 2
@@ -146,7 +188,7 @@ function charToNumberMulti(text){
     } else if (text == "D") {
         value = 3
         return value
-    }else if (text == "E") {
+    } else if (text == "E") {
         value = 4
         return value
     }
@@ -154,33 +196,34 @@ function charToNumberMulti(text){
     return -1
 }
 r = []
-base=0
+base = 0
+
 function getDaan(text) {
-	r = []
-	base=0
+    r = []
+    base = 0
     $(".tdTitle:contains('正确答案')+td").each(function (index, item) {
-        var inputLength=$(this).parents('table').parent().prev().find('input').length
+        var inputLength = $(this).parents('table').parent().prev().find('input').length
         // $(".tdTitle:contains('正确答案')+td").parents('table').parent().prev()
         let text = $(item).text()
-        var value=-1
+        var value = -1
         console.log(text)
-        if(text.indexOf("，")!=-1){
+        if (text.indexOf("，") != -1) {
             // 多选
-            txetsplit=text.split("，")
-            var textArr=txetsplit.map((item,sindex)=>{
-                var pos=charToNumberMulti(item)
+            txetsplit = text.split("，")
+            var textArr = txetsplit.map((item, sindex) => {
+                var pos = charToNumberMulti(item)
                 return pos + base
-			})
-			base=base+inputLength
+            })
+            base = base + inputLength
             r.push(textArr)
-            return   
-        }else{
+            return
+        } else {
             // 单选
             value = charToNumber(text)
             if (value != -1) {
-				
-				r.push(value + base)
-				base=base+inputLength
+
+                r.push(value + base)
+                base = base + inputLength
                 return
             }
         }
@@ -190,8 +233,8 @@ function getDaan(text) {
         if (text == "错误") {
             value = 1
         }
-		r.push(value +base)
-		base=base+inputLength
+        r.push(value + base)
+        base = base + inputLength
     })
     console.log(r)
     localStorage.setItem('daan', JSON.stringify(r))
@@ -200,11 +243,11 @@ function getDaan(text) {
 function tianchong() {
     var daan = JSON.parse(localStorage.getItem('daan'))
     daan.forEach((item, index) => {
-        if(typeof item =='object'){
+        if (typeof item == 'object') {
             item.forEach((sitem, sindex) => {
                 $(".dx_style").eq(sitem).prop('checked', true)
             })
-        }else{
+        } else {
             $(".dx_style").eq(item).prop('checked', true)
         }
     })

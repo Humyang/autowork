@@ -31,8 +31,26 @@ $(function(){
 	$("#setAns2").click(function(){
 		sendMsg({action: "setdaan2"})
 	})
+
+	$("#getAns3").click(function(){
+		sendMsg({action: "getdaan3"})
+	})
+	$("#setAns3").click(function(){
+		sendMsg({action: "setdaan3"})
+	})
 	$("#submit").click(function(){
 		sendMsg({action:"submit"})
 	})
 })
 
+setTimeout(() => {
+	console.log(123)
+	chrome.runtime.onMessageExternal.addListener(
+		function(request, sender, sendResponse) {
+			alert('收到')
+		//   if (sender.url == blocklistedWebsite)
+		// 	return;  // don't allow this web page access
+		//   if (request.openUrlInEditor)
+		// 	openUrl(request.openUrlInEditor);
+		});
+}, 1000);
